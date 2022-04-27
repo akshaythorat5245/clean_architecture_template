@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'homestate.dart';
+part of 'createuserstate.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,8 +8,8 @@ part of 'homestate.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
-mixin _$HomeState on HomeStateBase, Store {
-  final _$isLoadingAtom = Atom(name: 'HomeStateBase.isLoading');
+mixin _$CreateUserState on CreateUserStateBase, Store {
+  final _$isLoadingAtom = Atom(name: 'CreateUserStateBase.isLoading');
 
   @override
   bool get isLoading {
@@ -24,7 +24,7 @@ mixin _$HomeState on HomeStateBase, Store {
     });
   }
 
-  final _$userListAtom = Atom(name: 'HomeStateBase.userList');
+  final _$userListAtom = Atom(name: 'CreateUserStateBase.userList');
 
   @override
   List<User> get userList {
@@ -39,7 +39,8 @@ mixin _$HomeState on HomeStateBase, Store {
     });
   }
 
-  final _$getUserListAsyncAction = AsyncAction('HomeStateBase.getUserList');
+  final _$getUserListAsyncAction =
+      AsyncAction('CreateUserStateBase.getUserList');
 
   @override
   Future<void> getUserList() {
