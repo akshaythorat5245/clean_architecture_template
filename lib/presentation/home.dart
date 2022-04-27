@@ -19,15 +19,26 @@ class _HomeState extends State<Home> {
           return Center(
             child: CircularProgressIndicator(),
           );
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-                'Last Solar Flare Date: ${widget.homeState.solarActivities.lastFlare.startTime}'),
-            Text(
-                'Last Geo Storm Date: ${widget.homeState.solarActivities.lastStorm.startTime}'),
-          ],
-        );
+
+        if (widget.homeState.userList == null ||
+            widget.homeState.userList.isEmpty) {
+          return Center(
+            child: Text('No data Available'),
+          );
+        }
+
+        return ListView.builder(
+            itemCount: widget.homeState.userList.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Column(
+                children: [
+                  Text('Name: ${widget.homeState.userList[index].name}'),
+                  Text('Email: ${widget.homeState.userList[index].email}'),
+                  Text('Gender: ${widget.homeState.userList[index].gender}'),
+                  Text('Status: ${widget.homeState.userList[index].status}'),
+                ],
+              );
+            });
       },
     );
   }

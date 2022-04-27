@@ -1,36 +1,46 @@
 import 'dart:io';
-
-import 'package:clean_architecture_ess/data/entities/geo_storm_dto.dart';
-import 'package:clean_architecture_ess/data/entities/solar_flare_dto.dart';
+import 'package:clean_architecture_ess/data/entities/user_dto.dart';
+import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_http2_adapter/dio_http2_adapter.dart';
 import 'package:intl/intl.dart';
+import 'dart:convert' as convert;
+import 'package:http/http.dart' as http;
 
 class NasaService {
-  static const _BASE_URL = 'https://kauai.ccmc.gsfc.nasa.gov';
+  static const _BASE_URL = 'https://gorest.co.in';
 
-  final Dio dio = Dio(
-    BaseOptions(baseUrl: _BASE_URL, receiveDataWhenStatusError: true),
-  );
+  final dio = Dio()
+    ..options.baseUrl = _BASE_URL
+    ..options.responseType = ResponseType.json
+    ..options.contentType = "application/json"
+    ..options.connectTimeout = 10000
+    ..interceptors.add(LogInterceptor());
+  // ..httpClientAdapter = Http2Adapter(
+  //   ConnectionManager(
+  //       idleTimeout: 20000,
+  //       // Ignore bad certificate
+  //       onClientCreate: (_, config) => {
+  //             //config.context?.setTrustedCertificatesBytes(File("/assets/certs/wildcard.pem").readAsBytesSync()),
+  //             config.onBadCertificate =
+  //                 (_) => true, // <-- ignored, should bypass check
+  //           }),
+  // );
 
-  Future<List<GeoStormDTO>> getGeoStorms(DateTime from, DateTime to) async {
+  Future<List<UserDTO>> getUserList() async {
     try {
-      final response = await dio.get('/DONKI/WS/get/GST');
+      (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+          (HttpClient client) {
+        client.badCertificateCallback =
+            (X509Certificate cert, String host, int port) => true;
+        return client;
+      };
 
-      return (response.data as List)
-          .map((i) => GeoStormDTO.fromApi(i))
-          .toList();
+      final response = await dio.get('/public/v2/users/');
+      return (response.data as List).map((i) => UserDTO.fromJson(i)).toList();
     } on DioError catch (e) {
-      print(e.message);
-      print(e.response.requestOptions);
+      print("Error " + e.message);
     }
-  }
-
-  Future<List<SolarFlareDTO>> getFlares(DateTime from, DateTime to) async {
-    final response = await dio.get('/DONKI/WS/get/FLR');
-
-    return (response.data as List)
-        .map((i) => SolarFlareDTO.fromApi(i))
-        .toList();
   }
 }
 

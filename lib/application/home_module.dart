@@ -5,7 +5,6 @@ import 'repo_module.dart';
 
 class HomeModule {
   static HomeState homeState() {
-    return HomeState(SolarActivitiesUseCase(
-        RepoModule.geoStormRepo(), RepoModule.solarFlareRepo()));
+    return HomeState(SolarActivitiesUseCase(RepoModule.userRepo()));
   }
 }

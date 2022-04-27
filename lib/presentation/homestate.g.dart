@@ -11,19 +11,6 @@ part of 'homestate.dart';
 mixin _$HomeState on HomeStateBase, Store {
   final _$solarActivitiesAtom = Atom(name: 'HomeStateBase.solarActivities');
 
-  @override
-  SolarActivities get solarActivities {
-    _$solarActivitiesAtom.reportRead();
-    return super.solarActivities;
-  }
-
-  @override
-  set solarActivities(SolarActivities value) {
-    _$solarActivitiesAtom.reportWrite(value, super.solarActivities, () {
-      super.solarActivities = value;
-    });
-  }
-
   final _$isLoadingAtom = Atom(name: 'HomeStateBase.isLoading');
 
   @override
@@ -39,20 +26,33 @@ mixin _$HomeState on HomeStateBase, Store {
     });
   }
 
-  final _$getSolarActivitiesAsyncAction =
-      AsyncAction('HomeStateBase.getSolarActivities');
+  final _$userListAtom = Atom(name: 'HomeStateBase.userList');
 
   @override
-  Future<void> getSolarActivities() {
-    return _$getSolarActivitiesAsyncAction
-        .run(() => super.getSolarActivities());
+  List<User> get userList {
+    _$userListAtom.reportRead();
+    return super.userList;
+  }
+
+  @override
+  set userList(List<User> value) {
+    _$userListAtom.reportWrite(value, super.userList, () {
+      super.userList = value;
+    });
+  }
+
+  final _$getUserListAsyncAction = AsyncAction('HomeStateBase.getUserList');
+
+  @override
+  Future<void> getUserList() {
+    return _$getUserListAsyncAction.run(() => super.getUserList());
   }
 
   @override
   String toString() {
     return '''
-solarActivities: ${solarActivities},
-isLoading: ${isLoading}
+isLoading: ${isLoading},
+userList: ${userList}
     ''';
   }
 }

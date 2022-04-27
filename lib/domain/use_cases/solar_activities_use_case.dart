@@ -1,20 +1,14 @@
-import 'package:clean_architecture_ess/domain/enteties/solar_activities.dart';
-import 'package:clean_architecture_ess/domain/repos/geo_storm_repo.dart';
-import 'package:clean_architecture_ess/domain/repos/solar_flare_repo.dart';
+import 'package:clean_architecture_ess/domain/enteties/user.dart';
+import 'package:clean_architecture_ess/domain/repos/user_repo.dart';
 
 class SolarActivitiesUseCase {
-  final GeoStormRepo _geoStormRepo;
-  final SolarFlareRepo _solarFlareRepo;
+  final UserRepo _userRepo;
 
-  SolarActivitiesUseCase(this._geoStormRepo, this._solarFlareRepo);
+  SolarActivitiesUseCase(this._userRepo);
 
-  Future<SolarActivities> getLastSolarActivities() async {
-    final fromDate = DateTime.now().subtract(Duration(days: 365));
-    final toDate = DateTime.now();
+  Future<List<User>> getAllUsers() async {
+    final users = await _userRepo.getUsersList();
 
-    final storms = await _geoStormRepo.getStorms(from: fromDate, to: toDate);
-    final flares = await _solarFlareRepo.getFlares(from: fromDate, to: toDate);
-
-    return SolarActivities(lastFlare: flares.last, lastStorm: storms.last);
+    return users;
   }
 }
