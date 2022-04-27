@@ -9,18 +9,34 @@ class CreateUserState = CreateUserStateBase with _$CreateUserState;
 abstract class CreateUserStateBase with Store {
   CreateUserStateBase(this._useCase) {}
 
+  String genderdropdownvalue = 'Male';
+  var genderItems = [
+    'Male',
+    'Female',
+  ];
+
+  String statusdropdownvalue = 'Active';
+  var statusItems = [
+    'Active',
+    'Inactive',
+  ];
+
+  String name = "";
+  String email = "";
+
   final UsersUseCase _useCase;
 
   @observable
   bool isLoading = false;
 
   @observable
-  List<User> userList;
+  bool isSucess = false;
 
   @action
-  Future<void> getUserList() async {
+  Future<bool> createUser() async {
     isLoading = true;
-    userList = await _useCase.getAllUsers();
+    isSucess = await _useCase.createUser(
+        name, email, genderdropdownvalue, statusdropdownvalue);
     isLoading = false;
   }
 }

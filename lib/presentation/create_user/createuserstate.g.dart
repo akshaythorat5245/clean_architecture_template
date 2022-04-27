@@ -24,34 +24,33 @@ mixin _$CreateUserState on CreateUserStateBase, Store {
     });
   }
 
-  final _$userListAtom = Atom(name: 'CreateUserStateBase.userList');
+  final _$isSucessAtom = Atom(name: 'CreateUserStateBase.isSucess');
 
   @override
-  List<User> get userList {
-    _$userListAtom.reportRead();
-    return super.userList;
+  bool get isSucess {
+    _$isSucessAtom.reportRead();
+    return super.isSucess;
   }
 
   @override
-  set userList(List<User> value) {
-    _$userListAtom.reportWrite(value, super.userList, () {
-      super.userList = value;
+  set isSucess(bool value) {
+    _$isSucessAtom.reportWrite(value, super.isSucess, () {
+      super.isSucess = value;
     });
   }
 
-  final _$getUserListAsyncAction =
-      AsyncAction('CreateUserStateBase.getUserList');
+  final _$createUserAsyncAction = AsyncAction('CreateUserStateBase.createUser');
 
   @override
-  Future<void> getUserList() {
-    return _$getUserListAsyncAction.run(() => super.getUserList());
+  Future<bool> createUser() {
+    return _$createUserAsyncAction.run(() => super.createUser());
   }
 
   @override
   String toString() {
     return '''
 isLoading: ${isLoading},
-userList: ${userList}
+isSucess: ${isSucess}
     ''';
   }
 }

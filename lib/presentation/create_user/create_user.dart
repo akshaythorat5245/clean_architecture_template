@@ -1,5 +1,6 @@
 import 'package:clean_architecture_ess/presentation/create_user/createuserstate.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:clean_architecture_ess/presentation/design_consts.dart';
 
@@ -12,18 +13,6 @@ class CreateUser extends StatefulWidget {
   _CreateUserState createState() => _CreateUserState();
 }
 
-String genderdropdownvalue = 'Male';
-var genderItems = [
-  'Male',
-  'Female',
-];
-
-String statusdropdownvalue = 'Active';
-var statusItems = [
-  'Active',
-  'Inactive',
-];
-
 class _CreateUserState extends State<CreateUser> {
   Widget _body() {
     return Observer(builder: (_) {
@@ -31,7 +20,36 @@ class _CreateUserState extends State<CreateUser> {
         return Center(
           child: CircularProgressIndicator(),
         );
-      else
+      else if (widget.createUserState.isSucess) {
+        SchedulerBinding.instance.addPostFrameCallback((_) {
+          // set up the button
+          Widget okButton = TextButton(
+            child: Text("OK"),
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+            },
+          );
+
+          // set up the AlertDialog
+          AlertDialog alert = AlertDialog(
+            title: Text("Sucess"),
+            content: Text("User Created Sucessfully."),
+            actions: [
+              okButton,
+            ],
+          );
+
+          // show the dialog
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return alert;
+            },
+          );
+        });
+        return Container();
+      } else
         return Container(
           child: Column(
             children: [
@@ -63,6 +81,11 @@ class _CreateUserState extends State<CreateUser> {
                               margin: EdgeInsets.only(
                                   bottom: 10, left: 20, top: 10, right: 20),
                               child: TextFormField(
+                                onChanged: (value) => {
+                                  setState(() {
+                                    widget.createUserState.name = value;
+                                  })
+                                },
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(),
                                   hintText: 'Enter Name',
@@ -73,6 +96,11 @@ class _CreateUserState extends State<CreateUser> {
                               margin: EdgeInsets.only(
                                   bottom: 10, left: 20, top: 10, right: 20),
                               child: TextFormField(
+                                onChanged: (value) => {
+                                  setState(() {
+                                    widget.createUserState.email = value;
+                                  })
+                                },
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(),
                                   hintText: 'Enter Email',
@@ -88,8 +116,10 @@ class _CreateUserState extends State<CreateUser> {
                                   Text("Gender:  ", style: textStyle),
                                   DropdownButton(
                                       elevation: 0,
-                                      value: genderdropdownvalue,
-                                      items: genderItems.map((String items) {
+                                      value: widget
+                                          .createUserState.genderdropdownvalue,
+                                      items: widget.createUserState.genderItems
+                                          .map((String items) {
                                         return DropdownMenuItem(
                                           value: items,
                                           child: Text(items, style: textStyle),
@@ -97,7 +127,8 @@ class _CreateUserState extends State<CreateUser> {
                                       }).toList(),
                                       onChanged: (String value) {
                                         setState(() {
-                                          genderdropdownvalue = value;
+                                          widget.createUserState
+                                              .genderdropdownvalue = value;
                                         });
                                       }),
                                 ],
@@ -112,8 +143,10 @@ class _CreateUserState extends State<CreateUser> {
                                   Text("Status:  ", style: textStyle),
                                   DropdownButton(
                                       elevation: 0,
-                                      value: statusdropdownvalue,
-                                      items: statusItems.map((String items) {
+                                      value: widget
+                                          .createUserState.statusdropdownvalue,
+                                      items: widget.createUserState.statusItems
+                                          .map((String items) {
                                         return DropdownMenuItem(
                                           value: items,
                                           child: Text(items, style: textStyle),
@@ -121,14 +154,17 @@ class _CreateUserState extends State<CreateUser> {
                                       }).toList(),
                                       onChanged: (String value) {
                                         setState(() {
-                                          statusdropdownvalue = value;
+                                          widget.createUserState
+                                              .statusdropdownvalue = value;
                                         });
                                       }),
                                 ],
                               ),
                             ),
                             ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                widget.createUserState.createUser();
+                              },
                               child: Text(
                                 "Create",
                                 style: textStyleCreate,

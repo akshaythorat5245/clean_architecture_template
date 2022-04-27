@@ -12,8 +12,10 @@ class UsersUseCase {
     return users;
   }
 
-  Future<bool> createUser() async{
+  Future<bool> createUser(
+      String name, String email, String gender, String status) async {
+    final response = await _userRepo.createUser(name, email, gender, status);
 
-
+    return response;
   }
 }

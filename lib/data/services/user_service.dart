@@ -1,21 +1,23 @@
+import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 import 'package:clean_architecture_ess/data/entities/user_dto.dart';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
-import 'package:dio_http2_adapter/dio_http2_adapter.dart';
 import 'package:intl/intl.dart';
 import 'dart:convert' as convert;
-import 'package:http/http.dart' as http;
 
-class NasaService {
+class UserService {
   static const _BASE_URL = 'https://gorest.co.in';
 
   final dio = Dio()
     ..options.baseUrl = _BASE_URL
-    ..options.responseType = ResponseType.json
-    ..options.contentType = "application/json"
     ..options.connectTimeout = 10000
-    ..interceptors.add(LogInterceptor());
+    ..interceptors.add(LogInterceptor(
+        requestBody: true,
+        request: true,
+        requestHeader: true,
+        responseBody: true));
   // ..httpClientAdapter = Http2Adapter(
   //   ConnectionManager(
   //       idleTimeout: 20000,
@@ -42,13 +44,42 @@ class NasaService {
       print("Error " + e.message);
     }
   }
-}
 
-class MyHttpOverrides extends HttpOverrides {
-  @override
-  HttpClient createHttpClient(SecurityContext context) {
-    return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
+  Future<bool> createUser(
+      String name, String email, String gender, String status) async {
+    try {
+      var params = FormData.fromMap({
+        "name": name,
+        "email": email,
+        "gender": gender,
+        "status": status,
+      });
+
+      (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+          (HttpClient client) {
+        client.badCertificateCallback =
+            (X509Certificate cert, String host, int port) => true;
+        return client;
+      };
+
+      final response = await dio.post(
+        '/public/v2/users/',
+        options: Options(headers: {
+          HttpHeaders.authorizationHeader:
+              "Bearer d768f41a00836dd3b6d23c3d72a62cd0908793d0cdfa77a76265bbee6861aba1"
+        }),
+        data: params,
+      );
+
+      if (response.statusCode == 201) {
+        return true;
+      } else {
+        print(response.data.toString());
+        return false;
+      }
+    } on DioError catch (e) {
+      print("Error " + e.message);
+      return false;
+    }
   }
 }
