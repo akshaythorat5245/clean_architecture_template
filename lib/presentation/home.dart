@@ -1,5 +1,6 @@
 import 'package:clean_architecture_ess/application/create_user_module.dart';
 import 'package:clean_architecture_ess/presentation/create_user/create_user.dart';
+import 'package:clean_architecture_ess/presentation/design_consts.dart';
 import 'package:clean_architecture_ess/presentation/homestate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -12,21 +13,6 @@ class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
-
-const textStyle=  TextStyle(fontSize: 15, fontStyle: FontStyle.normal, fontWeight: FontWeight.w500, color: Colors.black);
-const textStyleWhite=  TextStyle(fontSize: 20,  fontWeight: FontWeight.w700, color: Colors.white);
-const textStyleAdd=  TextStyle(fontSize: 15,  fontWeight: FontWeight.w500, color: Colors.black, backgroundColor: Colors.white);
-
-final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
-  onPrimary: Colors.white,
-  primary: Colors.white,
-  padding: EdgeInsets.symmetric(horizontal: 16),
-  shape: const RoundedRectangleBorder(
-    borderRadius: BorderRadius.all(Radius.circular(2)),
-  ),
-);
-
-
 
 class _HomeState extends State<Home> {
   Widget _body() {
@@ -58,7 +44,8 @@ class _HomeState extends State<Home> {
                     Expanded(flex:2,child: ElevatedButton(onPressed: (){
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => CreateUser(createUserState: CreateUserModule.userState())));
-                    }, child: Text("Add", style: textStyleAdd,),style: raisedButtonStyle, ))
+                    }, child: Text("Add", style: textStyleAdd,),style: raisedButtonStyle, )
+                    )
 
                   ],
                 ),

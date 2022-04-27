@@ -11,4 +11,9 @@ class UsersUseCase {
 
     return users;
   }
+
+  Future<bool> createUser() async{
+
+
+  }
 }
