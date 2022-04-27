@@ -46,6 +46,13 @@ mixin _$HomeState on HomeStateBase, Store {
     return _$getUserListAsyncAction.run(() => super.getUserList());
   }
 
+  final _$deleteUserAsyncAction = AsyncAction('HomeStateBase.deleteUser');
+
+  @override
+  Future<bool> deleteUser(int id) {
+    return _$deleteUserAsyncAction.run(() => super.deleteUser(id));
+  }
+
   @override
   String toString() {
     return '''

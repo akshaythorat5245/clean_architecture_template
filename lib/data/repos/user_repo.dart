@@ -15,8 +15,15 @@ class UserRepoImpl extends UserRepo {
   }
 
   @override
-  Future<bool> createUser(String name, String email, String gender, String status) async {
+  Future<bool> createUser(
+      String name, String email, String gender, String status) async {
     final res = await _nasaService.createUser(name, email, gender, status);
+    return res;
+  }
+
+  @override
+  Future<bool> deleteUser(int id) async {
+    final res = await _nasaService.deleteUser(id);
     return res;
   }
 }

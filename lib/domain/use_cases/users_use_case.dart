@@ -18,4 +18,10 @@ class UsersUseCase {
 
     return response;
   }
+
+  Future<bool> deleteUser(int id) async {
+    final response = await _userRepo.deleteUser(id);
+
+    return response;
+  }
 }

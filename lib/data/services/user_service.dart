@@ -82,4 +82,70 @@ class UserService {
       return false;
     }
   }
+
+  Future<bool> deleteUser(int id) async {
+    try {
+      (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+          (HttpClient client) {
+        client.badCertificateCallback =
+            (X509Certificate cert, String host, int port) => true;
+        return client;
+      };
+
+      final response = await dio.delete(
+        '/public/v2/users/' + id.toString(),
+        options: Options(headers: {
+          HttpHeaders.authorizationHeader:
+              "Bearer d768f41a00836dd3b6d23c3d72a62cd0908793d0cdfa77a76265bbee6861aba1"
+        }),
+      );
+
+      if (response.statusCode == 204) {
+        return true;
+      } else {
+        print(response.data.toString());
+        return false;
+      }
+    } on DioError catch (e) {
+      print("Error " + e.message);
+      return false;
+    }
+  }
+
+  Future<bool> updateUser(UserDTO user) async {
+    try {
+      (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+          (HttpClient client) {
+        client.badCertificateCallback =
+            (X509Certificate cert, String host, int port) => true;
+        return client;
+      };
+
+      var params = FormData.fromMap({
+        "name": user.name,
+        "email": user.email,
+        "gender": user.gender,
+        "status": user.status,
+      });
+
+      final response = await dio.put('/public/v2/users/' + user.id.toString(),
+          options: Options(headers: {
+            HttpHeaders.authorizationHeader:
+                "Bearer d768f41a00836dd3b6d23c3d72a62cd0908793d0cdfa77a76265bbee6861aba1"
+          }),
+          data: params);
+
+      if (response.statusCode == 204 ||
+          response.statusCode == 200 ||
+          response.statusCode == 201) {
+        return true;
+      } else {
+        print(response.data.toString());
+        return false;
+      }
+    } on DioError catch (e) {
+      print("Error " + e.message);
+      return false;
+    }
+  }
 }

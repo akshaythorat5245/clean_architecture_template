@@ -33,4 +33,14 @@ abstract class HomeStateBase with Store {
     userList = await _useCase.getAllUsers();
     isLoading = false;
   }
+
+  @action
+  Future<bool> deleteUser(int id) async {
+    isLoading = true;
+    var isDeleted = await _useCase.deleteUser(id);
+    isLoading = false;
+    if (isDeleted) {
+      getUserList();
+    }
+  }
 }
