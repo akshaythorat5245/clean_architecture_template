@@ -26,4 +26,12 @@ class UserRepoImpl extends UserRepo {
     final res = await _nasaService.deleteUser(id);
     return res;
   }
+
+  @override
+  Future<User> createUserwithObj(
+      String name, String email, String gender, String status) async {
+    final res =
+        await _nasaService.createUserwithObj(name, email, gender, status);
+    return res.toModel();
+  }
 }

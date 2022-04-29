@@ -24,4 +24,12 @@ class UsersUseCase {
 
     return response;
   }
+
+  Future<User> createUserwithObj(
+      String name, String email, String gender, String status) async {
+    final response =
+        await _userRepo.createUserwithObj(name, email, gender, status);
+
+    return response;
+  }
 }

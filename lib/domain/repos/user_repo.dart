@@ -7,4 +7,7 @@ abstract class UserRepo {
       String name, String email, String gender, String status);
 
   Future<bool> deleteUser(int id);
+
+  Future<User> createUserwithObj(
+      String name, String email, String gender, String status);
 }

@@ -83,6 +83,40 @@ class UserService {
     }
   }
 
+  Future<UserDTO> createUserwithObj(
+      String name, String email, String gender, String status) async {
+    try {
+      var params = FormData.fromMap({
+        "name": name,
+        "email": email,
+        "gender": gender,
+        "status": status,
+      });
+
+      (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+          (HttpClient client) {
+        client.badCertificateCallback =
+            (X509Certificate cert, String host, int port) => true;
+        return client;
+      };
+
+      final response = await dio.post(
+        '/public/v2/users/',
+        options: Options(headers: {
+          HttpHeaders.authorizationHeader:
+              "Bearer d768f41a00836dd3b6d23c3d72a62cd0908793d0cdfa77a76265bbee6861aba1"
+        }),
+        data: params,
+      );
+
+      if (response.statusCode == 201) {
+        return UserDTO.fromJson(response.data);
+      }
+    } on DioError catch (e) {
+      print("Error " + e.message);
+    }
+  }
+
   Future<bool> deleteUser(int id) async {
     try {
       (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
