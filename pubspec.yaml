@@ -24,7 +24,8 @@ dependencies:
   flutter:
     sdk: flutter
 
-  dio: any
+  dio: ^4.0.0
+  dio_http2_adapter: ^2.0.0
   intl: any
   mobx: any
   flutter_mobx: any
@@ -34,6 +35,10 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.0
+  equatable: ^2.0.3
+  http: ^0.13.4
+  mockito: ^5.1.0
+  http_mock_adapter: ^0.3.2
 
 dev_dependencies:
   flutter_test:
@@ -41,6 +46,7 @@ dev_dependencies:
 
   mobx_codegen: any
   build_runner: any
+  test: ^1.19.5
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

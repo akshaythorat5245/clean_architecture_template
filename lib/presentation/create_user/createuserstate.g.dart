@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'homestate.dart';
+part of 'createuserstate.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,8 +8,8 @@ part of 'homestate.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
-mixin _$HomeState on HomeStateBase, Store {
-  final _$isLoadingAtom = Atom(name: 'HomeStateBase.isLoading');
+mixin _$CreateUserState on CreateUserStateBase, Store {
+  final _$isLoadingAtom = Atom(name: 'CreateUserStateBase.isLoading');
 
   @override
   bool get isLoading {
@@ -24,40 +24,33 @@ mixin _$HomeState on HomeStateBase, Store {
     });
   }
 
-  final _$userListAtom = Atom(name: 'HomeStateBase.userList');
+  final _$isSucessAtom = Atom(name: 'CreateUserStateBase.isSucess');
 
   @override
-  List<User> get userList {
-    _$userListAtom.reportRead();
-    return super.userList;
+  bool get isSucess {
+    _$isSucessAtom.reportRead();
+    return super.isSucess;
   }
 
   @override
-  set userList(List<User> value) {
-    _$userListAtom.reportWrite(value, super.userList, () {
-      super.userList = value;
+  set isSucess(bool value) {
+    _$isSucessAtom.reportWrite(value, super.isSucess, () {
+      super.isSucess = value;
     });
   }
 
-  final _$getUserListAsyncAction = AsyncAction('HomeStateBase.getUserList');
+  final _$createUserAsyncAction = AsyncAction('CreateUserStateBase.createUser');
 
   @override
-  Future<void> getUserList() {
-    return _$getUserListAsyncAction.run(() => super.getUserList());
-  }
-
-  final _$deleteUserAsyncAction = AsyncAction('HomeStateBase.deleteUser');
-
-  @override
-  Future<bool> deleteUser(int id) {
-    return _$deleteUserAsyncAction.run(() => super.deleteUser(id));
+  Future<bool> createUser() {
+    return _$createUserAsyncAction.run(() => super.createUser());
   }
 
   @override
   String toString() {
     return '''
 isLoading: ${isLoading},
-userList: ${userList}
+isSucess: ${isSucess}
     ''';
   }
 }

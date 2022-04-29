@@ -1,5 +1,5 @@
-import 'package:clean_architecture_ess/domain/enteties/solar_activities.dart';
-import 'package:clean_architecture_ess/domain/use_cases/solar_activities_use_case.dart';
+import 'package:clean_architecture_ess/domain/enteties/user.dart';
+import 'package:clean_architecture_ess/domain/use_cases/users_use_case.dart';
 import 'package:mobx/mobx.dart';
 
 part 'homestate.g.dart';
@@ -8,21 +8,39 @@ class HomeState = HomeStateBase with _$HomeState;
 
 abstract class HomeStateBase with Store {
   HomeStateBase(this._useCase) {
-    getSolarActivities();
+    //getSolarActivities();
+    getUserList();
   }
 
-  final SolarActivitiesUseCase _useCase;
-
-  @observable
-  SolarActivities solarActivities;
+  final UsersUseCase _useCase;
 
   @observable
   bool isLoading = false;
 
+  // @action
+  // Future<void> getSolarActivities() async {
+  //   isLoading = true;
+  //   solarActivities = await _useCase.getLastSolarActivities();
+  //   isLoading = false;
+  // }
+
+  @observable
+  List<User> userList;
+
   @action
-  Future<void> getSolarActivities() async {
+  Future<void> getUserList() async {
     isLoading = true;
-    solarActivities = await _useCase.getLastSolarActivities();
+    userList = await _useCase.getAllUsers();
     isLoading = false;
+  }
+
+  @action
+  Future<bool> deleteUser(int id) async {
+    isLoading = true;
+    var isDeleted = await _useCase.deleteUser(id);
+    isLoading = false;
+    if (isDeleted) {
+      getUserList();
+    }
   }
 }
